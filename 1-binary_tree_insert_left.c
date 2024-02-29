@@ -12,20 +12,23 @@
  */
 binary_tree_t *binary_tree_insert_left(binary_tree_t *parent, int value)
 {
-	binary_tree_t *new_node = binary_tree_node(parent, value);
-	
-	if (!new_node || !parent)
-		return (NULL);
+	binary_tree_t *new_node;
 
-	/* Check if parent already has a left child */
-	if (parent->left != NULL) {
-		binary_tree_t *old_left = parent->left;
-		parent->left = new_node;
-		new_node->left = old_left;
-		old_left->parent = new_node;
-	} else {
-		parent->left = new_node;
+	if (parent == NULL)
+	{
+		return (NULL);
 	}
 
+	new_node = binary_tree_node(parent, value);
+	if (new_node == NULL)
+	{
+		return (NULL); /* If memory allocation for the new node fails */
+	}
+	if (parent->left != NULL)
+	{
+		new_node->left = parent->left;
+		parent->left->parent = new_node;
+	}
+	parent->left = new_node; /* As the left child of the parent */
 	return (new_node);
 }

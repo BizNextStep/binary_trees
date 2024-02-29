@@ -12,20 +12,23 @@
  */
 binary_tree_t *binary_tree_insert_right(binary_tree_t *parent, int value)
 {
-	binary_tree_t *new_node = binary_tree_node(parent, value);
+	binary_tree_t *new_node;
 
-	if (!new_node || !parent)
-        return (NULL);
-
-	/* Check if parent already has a right child */
-	if (parent->right != NULL) {
-	binary_tree_t *old_right = parent->right;
-	parent->right = new_node;
-	new_node->right = old_right;
-	old_right->parent = new_node;
-	} else {
-	parent->right = new_node;
+	if (parent == NULL)
+	{
+		return (NULL);
 	}
 
+	new_node = binary_tree_node(parent, value);
+	if (new_node == NULL)
+	{
+		return (NULL); /* If memory allocation for the new node fails */
+	}
+	if (parent->right != NULL)
+	{
+		new_node->right = parent->right; 
+		parent->right->parent = new_node;
+	}
+	parent->right = new_node; /* As the right child of the parent */
 	return (new_node);
 }
